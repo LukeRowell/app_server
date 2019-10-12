@@ -5,11 +5,6 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-});
-
 app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
     console.log(`Starting server at ${port}`);
 });
@@ -17,11 +12,6 @@ app.listen(port, () => {                        //start the server on supplied p
 app.use(cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
-
-pool.on('error', (err, client) => {
-    console.error('Unexpected error on idle client', err);
-    process.exit(-1);
-});
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
     const searchParameters = request.params.parameters.split(',');
@@ -67,11 +57,22 @@ app.get('/pokebase/search/:parameters', async (request, response) => {
         queryValues = [searchType1, searchType2, generationNumbers];
     }
 
+    const pool = new Pool({
+        connectionString: 'postgres://haxrmdohtdpejz:5acd0ec4ab5be0cb9e3016bd47a9763576cdce4e73b66298a89fa7e8a3838983@ec2-23-23-92-204.compute-1.amazonaws.com:5432/d1gavj00p2427f',
+        ssl: true,
+    });
+
     const client = await pool.connect()
     const result = await client.query({
       rowMode: 'array',
       text: queryText,
       values: queryValues
+    });
+
+    client.release();
+
+    pool.end(() => {
+        console.log('Pokebase pool ended');
     });
 
     for (item of result.rows) {
