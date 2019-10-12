@@ -58,7 +58,7 @@ app.get('/pokebase/search/:parameters', async (request, response) => {
     }
 
     const pool = new Pool({
-        connectionString: 'postgres://haxrmdohtdpejz:5acd0ec4ab5be0cb9e3016bd47a9763576cdce4e73b66298a89fa7e8a3838983@ec2-23-23-92-204.compute-1.amazonaws.com:5432/d1gavj00p2427f',
+        connectionString: process.env.DATABASE_URL,
         ssl: true,
     });
 
