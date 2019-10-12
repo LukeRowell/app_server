@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 require('dotenv').config();
 const { Pool } = require('pg');
 const app = express();
@@ -13,6 +14,7 @@ app.listen(port, () => {                        //start the server on supplied p
     console.log(`Starting server at ${port}`);
 });
 
+app.use(cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
