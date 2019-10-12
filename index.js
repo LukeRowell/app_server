@@ -5,6 +5,28 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
+async function queryDB(dbConnectionString, queryText, queryValues) {
+    const pool = new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: true,
+    });
+
+    const client = await pool.connect()
+    const result = await client.query({
+      rowMode: 'array',
+      text: queryText,
+      values: queryValues
+    });
+
+    client.release();
+
+    pool.end(() => {
+        console.log(`${dbConnectionString} pool ended`);
+    });
+
+    return result;
+}
+
 app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
     console.log(`Starting server at ${port}`);
 });
@@ -57,6 +79,7 @@ app.get('/pokebase/search/:parameters', async (request, response) => {
         queryValues = [searchType1, searchType2, generationNumbers];
     }
 
+    /*
     const pool = new Pool({
         connectionString: process.env.DATABASE_URL,
         ssl: true,
@@ -74,6 +97,9 @@ app.get('/pokebase/search/:parameters', async (request, response) => {
     pool.end(() => {
         console.log('Pokebase pool ended');
     });
+    */
+
+    const result = await queryDB(process.env.DATABASE_URL, queryText, queryValues);
 
     for (item of result.rows) {
         const entry = {
