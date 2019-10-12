@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const pool = new Pool({
-    connectionString: process.env.POKEBASE_URL,
+    connectionString: process.env.DATABASE_URL,
     ssl: true,
 });
 
