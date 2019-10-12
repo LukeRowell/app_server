@@ -7,7 +7,7 @@ const port = process.env.PORT || 5000;
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
+        connectionString: dbConnectionString,
         ssl: true,
     });
 
@@ -21,7 +21,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     client.release();
 
     pool.end(() => {
-        console.log(`${dbConnectionString} pool ended`);
+        //console.log(`Pool ended for: ${dbConnectionString}`);
     });
 
     return result;
@@ -78,26 +78,6 @@ app.get('/pokebase/search/:parameters', async (request, response) => {
         queryText = `SELECT * FROM pokemon WHERE ((type1 = $1 AND type2 = $2) OR (type1 = $2 AND type2 = $1)) AND generation = ANY ($3) ORDER BY ${orderStat} ${orderVal};`;
         queryValues = [searchType1, searchType2, generationNumbers];
     }
-
-    /*
-    const pool = new Pool({
-        connectionString: process.env.DATABASE_URL,
-        ssl: true,
-    });
-
-    const client = await pool.connect()
-    const result = await client.query({
-      rowMode: 'array',
-      text: queryText,
-      values: queryValues
-    });
-
-    client.release();
-
-    pool.end(() => {
-        console.log('Pokebase pool ended');
-    });
-    */
 
     const result = await queryDB(process.env.DATABASE_URL, queryText, queryValues);
 
