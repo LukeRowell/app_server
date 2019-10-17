@@ -45,6 +45,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const data = {secretKey, userResponse};    //put all the data together into an object
     const options = {
       method: 'POST',
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json'
       },
