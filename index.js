@@ -6,13 +6,13 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_ADDR,
-      pass: process.env.EMAIL_PASS
-    }
+app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
+    console.log(`Starting server at ${port}`);
 });
+
+app.use(cors());
+app.use(express.static('public'));
+app.use(express.json({limit: '1mb'}));
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
@@ -36,13 +36,41 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     return result;
 }
 
-app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
-    console.log(`Starting server at ${port}`);
-});
+app.get('/portfolio/sendmail/:parameters', async (request, response) => {
+    const mailParameters = request.params.parameters.split(',');
+    const secretKey = process.env.SECRET_KEY;
+    const userResponse = mailParameters[0];
+    const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
 
-app.use(cors());
-app.use(express.static('public'));
-app.use(express.json({limit: '1mb'}));
+    const data = {secretKey, userResponse};    //put all the data together into an object
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    };
+
+    const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
+    const db_json = await db_response.json();
+
+    /*
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_ADDR,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    let mailOptions = {
+        from: process.env.EMAIL_ADDR,
+        to: process.env.EMAIL_ADDR
+    };
+    */
+
+    response(db_json);
+});
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
     const searchParameters = request.params.parameters.split(',');
