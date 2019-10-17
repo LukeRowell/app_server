@@ -1,9 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+const nodemailer = require('nodemailer');
 const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_ADDR,
+      pass: process.env.EMAIL_PASS
+    }
+});
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
