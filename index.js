@@ -12,19 +12,8 @@ app.listen(port, () => {                        //start the server on supplied p
 
 app.use(cors());
 app.options('*', cors());
-app.options('/portfolio/sendmail', function (req, res) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.end();
-});
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
-app.all('/*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
@@ -50,9 +39,6 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 
 app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const returnData = "hello from sendmail";
-    /*
-    app.use(cors());
-    app.options('*', cors());
     const mailParameters = request.params.parameters.split(',');
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
@@ -61,15 +47,20 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const data = {secretKey, userResponse};    //put all the data together into an object
     const options = {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'cors',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'www.lukerowell.com'
       },
       body: JSON.stringify(data)
     };
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     const db_json = await db_response.json();
+    /*
+    app.use(cors());
+    app.options('*', cors());
+
 
     
     const transporter = nodemailer.createTransport({
