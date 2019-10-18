@@ -50,7 +50,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'www.lukerowell.com'
+        'Access-Control-Allow-Origin': 'http://www.lukerowell.com'
       },
       body: JSON.stringify(data)
     };
