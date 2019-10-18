@@ -11,7 +11,6 @@ app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
-
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
         connectionString: dbConnectionString,
@@ -46,7 +45,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'http://www.lukerowell.com'
+        'Access-Control-Allow-Origin': '*'
       },
       body: JSON.stringify(data)
     };
