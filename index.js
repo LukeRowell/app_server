@@ -1,19 +1,19 @@
 const express = require('express');
-let cors = require('cors');
+const cors = require('cors');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
-    console.log(`Starting server at ${port}`);
-});
-
 app.use(cors());
 app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
+
+app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
+    console.log(`Starting server at ${port}`);
+});
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
