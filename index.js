@@ -38,6 +38,8 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 }
 
 app.get('/portfolio/sendmail/:parameters', async (request, response) => {
+    app.use(cors());
+    app.options('*', cors());
     const mailParameters = request.params.parameters.split(',');
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
