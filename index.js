@@ -10,8 +10,8 @@ app.listen(port, () => {                        //start the server on supplied p
     console.log(`Starting server at ${port}`);
 });
 
-cors({credentials: true, origin: true});
 app.use(cors());
+app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
