@@ -11,6 +11,13 @@ app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
+app.options('/portfolio', function (req, res) {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    res.end();
+});
+
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
         connectionString: dbConnectionString,
@@ -44,8 +51,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     };
