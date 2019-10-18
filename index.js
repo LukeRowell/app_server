@@ -11,9 +11,6 @@ app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
-app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
-    console.log(`Starting server at ${port}`);
-});
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
@@ -37,7 +34,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     return result;
 }
 
-app.get('/portfolio/sendmail/:parameters', cors(), async (request, response) => {
+app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const returnData = "hello from sendmail";
     const mailParameters = request.params.parameters.split(',');
     const secretKey = process.env.SECRET_KEY;
@@ -47,7 +44,6 @@ app.get('/portfolio/sendmail/:parameters', cors(), async (request, response) => 
     const data = {secretKey, userResponse};    //put all the data together into an object
     const options = {
       method: 'POST',
-      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'http://www.lukerowell.com'
@@ -147,4 +143,8 @@ app.get('/pokebase/search/:parameters', async (request, response) => {
     }
     
     response.json(formattedResults);
+});
+
+app.listen(port, () => {                        //start the server on supplied port or port 3000 if none supplied
+    console.log(`Starting server at ${port}`);
 });
