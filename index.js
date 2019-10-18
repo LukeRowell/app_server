@@ -20,6 +20,11 @@ app.options('/portfolio/sendmail', function (req, res) {
 });
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
