@@ -37,7 +37,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     return result;
 }
 
-app.get('/portfolio/sendmail/:parameters', async (request, response) => {
+app.get('/portfolio/sendmail/:parameters', cors(), async (request, response) => {
     const returnData = "hello from sendmail";
     const mailParameters = request.params.parameters.split(',');
     const secretKey = process.env.SECRET_KEY;
