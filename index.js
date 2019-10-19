@@ -47,6 +47,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     
+    /*
     const options = {
       method: 'POST',
       headers: {
@@ -60,7 +61,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     const db_json = await db_response.json();
-    
+    */
     /*
     app.use(cors());
     app.options('*', cors());
@@ -81,7 +82,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response(db_json);
+    response(response);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
