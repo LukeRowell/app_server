@@ -47,6 +47,8 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     
+    request.setHeader('Access-Control-Allow-Origin', '*');
+
     /*
     const options = {
       method: 'POST',
