@@ -50,7 +50,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-ww-form-urlencoded'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
           secret: process.env.SECRET_KEY,
