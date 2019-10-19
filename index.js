@@ -39,7 +39,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
-
+    const recaptcha_info = {secretKey}
     
     //response.json(request.headers);
     
@@ -49,10 +49,10 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       },
-      body: {
+      body: JSON.stringify({
           secret: process.env.SECRET_KEY,
           response: userResponse
-      }
+      })
     };
 
     //const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
