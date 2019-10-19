@@ -5,21 +5,8 @@ const nodemailer = require('nodemailer');
 const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
-let allowedOrigins = ['http://www.lukerowell.com'];
 
-app.use(cors({
-  origin: function(origin, callback){
-    // allow requests with no origin 
-    // (like mobile apps or curl requests)
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      var msg = 'The CORS policy for this site does not ' +
-                'allow access from the specified Origin.';
-      return callback(new Error(msg), false);
-    }
-    return callback(null, true);
-  }
-}));
+app.use(cors());
 
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
@@ -54,7 +41,10 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const requested = await request.json();
     
-    const toReturn = JSON.stringify(request.headers);
+    console.log(JSON.stringify(request.headers));
+
+    
+    response.json(returnData);
     /*
     const options = {
       method: 'POST',
@@ -90,7 +80,6 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response.json(toReturn);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
