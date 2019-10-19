@@ -39,9 +39,8 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
-    const requested = await request.json();
     
-    //console.log(JSON.stringify(request));
+    console.log(request);
 
     
     response.json(returnData);
