@@ -46,20 +46,22 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
-
-    const data = {secretKey, userResponse};    //put all the data together into an object
-    /*
+    
     const options = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-ww-form-urlencoded'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+          secret: process.env.SECRET_KEY,
+          response: userResponse
+      })
     };
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     const db_json = await db_response.json();
     
+    /*
     app.use(cors());
     app.options('*', cors());
 
@@ -79,7 +81,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response.json(returnData);
+    response(db_json);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
