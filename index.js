@@ -42,7 +42,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const requested = await request.json();
     
-    const toReturn = JSON.stringify(req.headers);
+    const toReturn = JSON.stringify(request.headers);
     /*
     const options = {
       method: 'POST',
