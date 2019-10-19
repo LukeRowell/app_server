@@ -41,7 +41,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const recaptcha_info = {secretKey}
     
-    response.json(request);
+    response(request);
 
     /*
     //response.json(request.headers);
@@ -53,7 +53,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({a: 1, b: 'Textual content'})
-      });
+    });
     
     const content = await rawResponse.json();
     
