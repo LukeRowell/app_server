@@ -46,6 +46,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const options = {
       method: 'POST',
       headers: {
+        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       },
       body: {
