@@ -41,6 +41,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const recaptcha_info = {secretKey}
     
+    /*
     //response.json(request.headers);
     const rawResponse = await fetch('https://httpbin.org/post', {
         method: 'POST',
@@ -53,7 +54,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
       });
     
     const content = await rawResponse.json();
-    /*
+    
     const options = {
       method: 'POST',
       headers: {
@@ -69,7 +70,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     //const db_json = await db_response.json();
     */
-    response(content);
+    response(request.headers);
 
     /*
     app.use(cors());
