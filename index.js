@@ -6,20 +6,9 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors(corsOptions));
-app.options('*', cors());
+app.use(cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
-
-app.options('/', function (req, res) {
-    req.setHeader("Access-Control-Allow-Origin", "*");
-    req.setHeader('Access-Control-Allow-Methods', '*');
-    req.setHeader("Access-Control-Allow-Headers", "*");
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader("Access-Control-Allow-Headers", "*");
-    res.end();
-});
 
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
@@ -49,7 +38,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
-
+    /*
     const options = {
       method: 'POST',
       headers: {
@@ -63,7 +52,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     const db_json = await db_response.json();
-
+    */
     /*
     app.use(cors());
     app.options('*', cors());
@@ -84,7 +73,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response(db_json);
+    response.json(returnData);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
