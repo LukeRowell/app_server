@@ -6,7 +6,9 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+    credentials: true
+}));
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
@@ -38,7 +40,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const secretKey = process.env.SECRET_KEY;
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
-    /*
+    
     const options = {
       method: 'POST',
       headers: {
@@ -52,7 +54,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     const db_json = await db_response.json();
-    */
+    
     /*
     app.use(cors());
     app.options('*', cors());
