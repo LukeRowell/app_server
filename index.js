@@ -41,7 +41,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const recaptcha_info = {secretKey}
     
-    response(request);
+    response.json(returnData);
 
     /*
     //response.json(request.headers);
