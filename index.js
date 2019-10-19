@@ -43,7 +43,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     console.log(request.headers);
 
     
-    response.json(returnData);
+    response.json(request.headers);
     /*
     const options = {
       method: 'POST',
