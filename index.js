@@ -42,7 +42,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const requested = await request.json();
     
-    const toReturn = {returnData, requested};
+    const toReturn = JSON.stringify(req.headers);
     /*
     const options = {
       method: 'POST',
@@ -78,7 +78,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response.json(returnData);
+    response.json(toReturn);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
