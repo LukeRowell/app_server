@@ -55,7 +55,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
-    const db_json = await db_response.json();
+    //const db_json = await db_response.json();
     
     response(db_response);
 
