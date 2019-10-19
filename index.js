@@ -82,7 +82,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response(response);
+    response(request);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
