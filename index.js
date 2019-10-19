@@ -6,7 +6,11 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://www.lukerowell.com'
+};
+
+app.use(cors(corsOptions));
 app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
@@ -47,11 +51,9 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
 
-    /*
     const options = {
       method: 'POST',
       headers: {
-        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -62,7 +64,6 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
     const db_json = await db_response.json();
-    */
 
     /*
     app.use(cors());
@@ -84,7 +85,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response.json(returnData);
+    response(db_json);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
