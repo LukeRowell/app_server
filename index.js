@@ -79,7 +79,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     };
     */
 
-    response.json(data);
+    response.json(returnData);
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
