@@ -6,16 +6,15 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-const corsOptions = {
-    origin: 'http://www.lukerowell.com'
-};
-
 app.use(cors(corsOptions));
 app.options('*', cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
-app.options('/portfolio', function (req, res) {
+app.options('/', function (req, res) {
+    req.setHeader("Access-Control-Allow-Origin", "*");
+    req.setHeader('Access-Control-Allow-Methods', '*');
+    req.setHeader("Access-Control-Allow-Headers", "*");
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader('Access-Control-Allow-Methods', '*');
     res.setHeader("Access-Control-Allow-Headers", "*");
