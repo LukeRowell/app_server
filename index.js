@@ -48,10 +48,10 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
+      body: {
           secret: process.env.SECRET_KEY,
           response: userResponse
-      })
+      }
     };
 
     const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
