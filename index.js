@@ -1,8 +1,6 @@
 const express = require('express');
-const https = require('https');
 const cors = require('cors');
 require('dotenv').config();
-const nodemailer = require('nodemailer');
 const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
@@ -32,7 +30,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     return result;
 }
 
-app.get('/portfolio/sendmail/:parameters', async (request, response) => {
+app.get('/portfolio/sendmail/:parameters', cors(), async (request, response) => {
     const returnData = "Hello from sendmail";
     const mailParameters = request.params.parameters.split(',');
     const secretKey = process.env.SECRET_KEY;
@@ -40,6 +38,7 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const recaptcha_info = {secretKey}
 
+    //test
     response.json(returnData);
 
     /*
