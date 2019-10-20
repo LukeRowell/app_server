@@ -7,8 +7,6 @@ const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
-
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
@@ -34,7 +32,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     return result;
 }
 
-app.get('/portfolio/sendmail/:parameters', async (request, response) => {
+app.get('/portfolio/sendmail/:parameters', cors(), async (request, response) => {
     const returnData = "Hello from sendmail";
     const mailParameters = request.params.parameters.split(',');
     const secretKey = process.env.SECRET_KEY;
