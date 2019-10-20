@@ -43,7 +43,6 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     
     const rawResponse = await fetch('https://httpbin.org/post', {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Access-Control-Allow-Origin': '*',
           'Accept': 'application/json',
@@ -52,11 +51,11 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
         body: JSON.stringify({a: 1, b: 'Textual content'})
     });
 
-    response.json(returnData);
+    const content = await rawResponse.json();
+    response(content);
     /*
     //response.json(request.headers);
     
-    const content = await rawResponse.json();
     
     const options = {
       method: 'POST',
