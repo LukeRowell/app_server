@@ -1,4 +1,5 @@
 const express = require('express');
+const request = require('request');
 const cors = require('cors');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
@@ -40,7 +41,18 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     const userResponse = mailParameters[0];
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const recaptcha_info = {secretKey}
-    
+
+
+    response.json(returnData);
+    /*
+    request('http://www.google.com', function (error, response, body) {
+        console.error('error:', error); // Print the error if one occurred
+        console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        console.log('body:', body); // Print the HTML for the Google homepage.
+    });
+    */
+
+    /*
     const rawResponse = await fetch('https://httpbin.org/post', {
         method: 'POST',
         headers: {
@@ -52,7 +64,8 @@ app.get('/portfolio/sendmail/:parameters', async (request, response) => {
     });
 
     const content = await rawResponse.json();
-    response(content);
+    */
+
     /*
     //response.json(request.headers);
     
