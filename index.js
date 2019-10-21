@@ -34,13 +34,21 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 
 app.post('/portfolio', async (request, response) => {
     const returnData = "Hello from sendmail";
-    const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const secret_key = process.env.SECRET_KEY;
     const userResponse = request.body;
-    const data = { secret: secret_key, response: userResponse };
+    const recaptcha_api_url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${userResponse}`;
 
     console.log(request.body);
 
+    const recaptcha_response = await fetch(recaptcha_api_url, {
+        method: 'POST'
+    });
+
+    const recaptcha_response_json = await recaptcha_response.json();
+
+    response.json(recaptcha_response_json);
+    
+    /*
     const recaptcha_response = await fetch(recaptcha_api_url, {
         method: 'POST',
         headers: {
@@ -48,8 +56,7 @@ app.post('/portfolio', async (request, response) => {
         },
         body: JSON.stringify(data)
     });
-
-    const recaptcha_response_json = await recaptcha_response.json();
+    */
     //response.json(returnData);
     /*
     const rawResponse = await fetch('https://httpbin.org/post', {
@@ -63,7 +70,6 @@ app.post('/portfolio', async (request, response) => {
     const content = await rawResponse.json();
     */
 
-    response.json(recaptcha_response_json);
 
     /*
     //response.json(request.headers);
