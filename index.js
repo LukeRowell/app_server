@@ -1,10 +1,12 @@
 const express = require('express');
+const fetch = require('node-fetch');
 const cors = require('cors');
 require('dotenv').config();
 const { Pool } = require('pg');
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
@@ -30,29 +32,31 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
     return result;
 }
 
-app.get('/portfolio/sendmail/:parameters', cors(), async (request, response) => {
+app.post('/portfolio', async (request, response) => {
     const returnData = "Hello from sendmail";
-    const mailParameters = request.params.parameters.split(',');
-    const secretKey = process.env.SECRET_KEY;
-    const userResponse = mailParameters[0];
-    const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
-    const recaptcha_info = {secretKey}
+   // const mailParameters = request.params.parameters.split(',');
+   // const secretKey = process.env.SECRET_KEY;
+   // const userResponse = mailParameters[0];
+   // const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
+   // const recaptcha_info = {secretKey}
 
-    response.json(returnData);
+    console.log(request.body);
 
-    /*
+    //fetch('https://google.com');
+
+    //response.json(returnData);
+
     const rawResponse = await fetch('https://httpbin.org/post', {
         method: 'POST',
         headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+          'content-type': 'application/json'
         },
         body: JSON.stringify({a: 1, b: 'Textual content'})
     });
 
     const content = await rawResponse.json();
-    */
+
+    response.json(content);
 
     /*
     //response.json(request.headers);
