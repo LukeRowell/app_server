@@ -36,6 +36,9 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 app.post('/portfolio', async (request, response) => {
     const success = 'reCAPTCHA verified';
     const failure = 'reCAPTCHA verification failed';
+    const name = request.body.name;
+    const email = request.body.email;
+    const message = request.body.message;
     const secret_key = process.env.SECRET_KEY;
     const userResponse = request.body.token;
     const recaptcha_api_url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${userResponse}`;
@@ -60,8 +63,8 @@ app.post('/portfolio', async (request, response) => {
         let mailOptions = {
             from: email_addr,
             to: email_addr,
-            subject: 'Sending Email using Node.js',
-            text: 'That was easy!'
+            subject: `Portfolio website message from: ${name} (${email})`,
+            text: request.body.message
         };
 
         transporter.sendMail(mailOptions, function(error, info){
@@ -76,72 +79,6 @@ app.post('/portfolio', async (request, response) => {
     } else {
         response.json(failure);
     }
-
-    //response.json(recaptcha_response_json);
-    
-    /*
-    const recaptcha_response = await fetch(recaptcha_api_url, {
-        method: 'POST',
-        headers: {
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    */
-    //response.json(returnData);
-    /*
-    const rawResponse = await fetch('https://httpbin.org/post', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify({a: 1, b: 'Textual content'})
-    });
-
-    const content = await rawResponse.json();
-    */
-
-
-    /*
-    //response.json(request.headers);
-    
-    
-    const options = {
-      method: 'POST',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          secret: process.env.SECRET_KEY,
-          response: userResponse
-      })
-    };
-
-    const db_response = await fetch(recaptcha_api_url, options);   //send the data over to be inserted to the database
-    //const db_json = await db_response.json();
-    */
-
-    /*
-    app.use(cors());
-    app.options('*', cors());
-
-
-    
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_ADDR,
-            pass: process.env.EMAIL_PASS
-        }
-    });
-
-    let mailOptions = {
-        from: process.env.EMAIL_ADDR,
-        to: process.env.EMAIL_ADDR
-    };
-    */
-
 });
 
 app.get('/pokebase/search/:parameters', async (request, response) => {
