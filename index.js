@@ -35,7 +35,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 app.post('/portfolio', async (request, response) => {
     const returnData = "Hello from sendmail";
     const secret_key = process.env.SECRET_KEY;
-    const userResponse = request.body;
+    const userResponse = JSON.stringify(request.body);
     const recaptcha_api_url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${userResponse}`;
 
     console.log(request.body);
