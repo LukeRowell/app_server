@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const cors = require('cors');
 require('dotenv').config();
 const { Pool } = require('pg');
+const nodemailer = require('nodemailer');
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -33,13 +34,11 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 }
 
 app.post('/portfolio', async (request, response) => {
-    const success = "reCAPTCHA verified";
-    const failure = "reCAPTCHA verification failed";
     const secret_key = process.env.SECRET_KEY;
     const userResponse = request.body.token;
     const recaptcha_api_url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${userResponse}`;
-
-    console.log(request.body.token);
+    let email_addr = process.env.EMAIL_ADDR;
+    let email_pass = process.env.EMAIL_PASS;
 
     const recaptcha_response = await fetch(recaptcha_api_url, {
         method: 'POST'
@@ -48,6 +47,29 @@ app.post('/portfolio', async (request, response) => {
     const recaptcha_response_json = await recaptcha_response.json();
 
     if (recaptcha_response_json.success) {
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+            user: email_addr,
+            pass: email_pass
+            }
+        });
+
+        let mailOptions = {
+            from: email_addr,
+            to: email_addr,
+            subject: 'Sending Email using Node.js',
+            text: 'That was easy!'
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+        });
+
         response.json(success);
     } else {
         response.json(failure);
