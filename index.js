@@ -33,7 +33,8 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 }
 
 app.post('/portfolio', async (request, response) => {
-    const returnData = "Hello from sendmail";
+    const success = "reCAPTCHA verified";
+    const failure = "reCAPTCHA verification failed";
     const secret_key = process.env.SECRET_KEY;
     const userResponse = request.body.token;
     const recaptcha_api_url = `https://www.google.com/recaptcha/api/siteverify?secret=${secret_key}&response=${userResponse}`;
@@ -46,7 +47,13 @@ app.post('/portfolio', async (request, response) => {
 
     const recaptcha_response_json = await recaptcha_response.json();
 
-    response.json(recaptcha_response_json);
+    if (recaptcha_response_json.success) {
+        response.json(success);
+    } else {
+        response.json(failure);
+    }
+
+    //response.json(recaptcha_response_json);
     
     /*
     const recaptcha_response = await fetch(recaptcha_api_url, {
