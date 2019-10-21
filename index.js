@@ -37,7 +37,7 @@ app.post('/portfolio', async (request, response) => {
     const recaptcha_api_url = 'https://www.google.com/recaptcha/api/siteverify';
     const secret_key = process.env.SECRET_KEY;
     const userResponse = request.body;
-    const data = { secret_key, userResponse };
+    const data = { secret: secret_key, response: userResponse };
 
     console.log(request.body);
 
