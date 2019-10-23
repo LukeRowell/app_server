@@ -64,7 +64,7 @@ app.post('/portfolio', async (request, response) => {
             from: email_addr,
             to: email_addr,
             subject: `Portfolio website message from: ${name} (${email})`,
-            text: request.body.message
+            text: message
         };
 
         transporter.sendMail(mailOptions, function(error, info){
