@@ -34,8 +34,6 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 }
 
 app.post('/portfolio', async (request, response) => {
-    const success = 'reCAPTCHA verified';
-    const failure = 'reCAPTCHA verification failed';
     const name = request.body.name;
     const email = request.body.email;
     const message = request.body.message;
@@ -70,14 +68,8 @@ app.post('/portfolio', async (request, response) => {
         transporter.sendMail(mailOptions, function(error, info){
             if (error) {
               console.log(error);
-            } else {
-              console.log('Email sent: ' + info.response);
             }
         });
-
-        response.json(success);
-    } else {
-        response.json(failure);
     }
 });
 
