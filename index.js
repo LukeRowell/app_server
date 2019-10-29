@@ -70,6 +70,10 @@ app.post('/portfolio', async (request, response) => {
               console.log(error);
             }
         });
+
+        response.json(success);
+    } else {
+        response.json(failure);
     }
 });
 
