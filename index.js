@@ -35,7 +35,7 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 
 app.post('/portfolio', async (request, response) => {
     const success = 'Email sent';
-    const failure = 'Verification failed';
+    let failureMessage = 'reCAPTCHA failed verification';
     const name = request.body.name;
     const email = request.body.email;
     const message = request.body.message;
@@ -45,13 +45,16 @@ app.post('/portfolio', async (request, response) => {
     let email_addr = process.env.EMAIL_ADDR;
     let email_pass = process.env.EMAIL_PASS;
 
+    //send POST request to reCAPTCHA api url
     const recaptcha_response = await fetch(recaptcha_api_url, {
         method: 'POST'
     });
 
     const recaptcha_response_json = await recaptcha_response.json();
 
+    //if the user's response was verified
     if (recaptcha_response_json.success) {
+        //send the email with nodemailer
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -67,15 +70,16 @@ app.post('/portfolio', async (request, response) => {
             text: message
         };
 
-        transporter.sendMail(mailOptions, function(error, info){
+        transporter.sendMail(mailOptions, function(error){
             if (error) {
               console.log(error);
+              response.json(error);
+            } else {
+              response.json(success);
             }
         });
-
-        response.json(success);
     } else {
-        response.json(failure);
+        response.json(failureMessage);
     }
 });
 
