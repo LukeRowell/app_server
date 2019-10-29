@@ -11,6 +11,9 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(express.json({limit: '1mb'}));
 
+//queryDB opens a connection with the database using the supplied database url,
+//and then performs the given query with the given values before closing the connection;
+//and returning the results of the query
 async function queryDB(dbConnectionString, queryText, queryValues) {
     const pool = new Pool({
         connectionString: dbConnectionString,
