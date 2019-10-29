@@ -34,6 +34,8 @@ async function queryDB(dbConnectionString, queryText, queryValues) {
 }
 
 app.post('/portfolio', async (request, response) => {
+    const success = 'Email sent';
+    const failure = 'Verification failed';
     const name = request.body.name;
     const email = request.body.email;
     const message = request.body.message;
