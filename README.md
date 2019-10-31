@@ -11,10 +11,10 @@ performs the query, closes the connection, and returns the results.
 
 ## Portfolio
 
-If the contact form has been properly filled out and submitted, a POST request is made to the app server.
-The server first checks the response token from the reCAPTCHA by making a POST request to Google's
-reCAPTCHA API. If the reCAPTCHA response is validated, then an email is constructed and sent using
-Nodemailer.
+If the contact form on the portfolio website has been properly filled out and submitted, a POST 
+request is made to the app server. The server first checks the response token from the reCAPTCHA 
+by making a POST request to Google's reCAPTCHA API. If the reCAPTCHA response is validated, then 
+an email is constructed and sent using Nodemailer.
 
 ## Built With
 
