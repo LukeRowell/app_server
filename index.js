@@ -5,7 +5,7 @@ require('dotenv').config();
 const { Pool } = require('pg');
 const nodemailer = require('nodemailer');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.static('public'));
